@@ -1,7 +1,7 @@
 package Model;
 import java.util.*;
 
-public class Produit {
+public class Produit{
 
     public Produit() {
     }
@@ -29,5 +29,9 @@ public class Produit {
 
     public Vector<LigneCommande> listeLigneC = new Vector<LigneCommande>();
 
-    public Catalogue catalogue;
+    // à checker
+    public void ajouteLigneCommande(LigneCommande ligneCommande){
+        listeLigneC.add(ligneCommande);
+    }
+
 }

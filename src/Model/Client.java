@@ -12,8 +12,16 @@ public class Client extends Personne {
 
     public int idC;
 
-    public Client(String nom, String prenom, String adresse, String tel) {
-        super(nom, prenom, adresse, tel);
+    public Client(String nom, String prenom, String adresse, String tel, String email) {
+        super(nom, prenom, adresse, tel, email);
         idC = ++nbClient;
     }
+
+    public void ajouteCommande(Commande commande){
+        listeCmd.add(commande);
+    }
+
+
+
+
 }

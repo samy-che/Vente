@@ -11,8 +11,13 @@ public class LigneCommande {
 
     public Produit produit;
 
+    public LigneCommande(int qte, Produit produit, Commande commande) {
+        this.qte = qte;
+        this.produit = produit;
+        this.commande = commande;
+    }
+
     public float getPrice() {
-        // TODO implement here
-        return 0.0f;
+        return qte* produit.prix;
     }
 }

@@ -5,19 +5,22 @@ public class Personne {
     public Personne() {
     }
 
-    private String Nom;
+    private String nom;
 
-    private String Prenom;
+    private String prenom;
 
-    private String Adresse;
+    private String adresse;
 
     private String tel;
 
-    public Personne(String nom, String prenom, String adresse, String tel) {
-        this.Nom = nom;
-        this.Prenom = prenom;
-        this.Adresse = adresse;
+    private String email;
+
+    public Personne(String nom, String prenom, String adresse, String tel, String email) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.adresse = adresse;
         this.tel = tel;
+        this.email = email;
     }
 
 }

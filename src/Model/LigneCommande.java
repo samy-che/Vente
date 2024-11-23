@@ -5,7 +5,7 @@ public class LigneCommande {
     public LigneCommande() {
     }
 
-    private int qte;
+    public int qte;
 
     public Commande commande;
 

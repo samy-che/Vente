@@ -64,4 +64,17 @@ public class Commande {
         return somme;
     }
 
+    public void validerCommande() {
+        if (listeLigneCmd.isEmpty()) {
+            throw new IllegalStateException("Le panier est vide. Ajoutez des produits avant de valider.");
+        }
+        this.etat = Etat.VALIDEE;
+        genererFacture();
+    }
+
+    private void genererFacture() {
+        Facture facture = new Facture(this);
+        // Enregistrez la facture en base ou affichez-la.
+    }
+
 }

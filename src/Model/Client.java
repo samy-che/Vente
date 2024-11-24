@@ -21,7 +21,4 @@ public class Client extends Personne {
         listeCmd.add(commande);
     }
 
-
-
-
 }

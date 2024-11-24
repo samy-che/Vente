@@ -19,7 +19,7 @@ public class Commande {
 
     public Commande(LocalDate date, Client client) {
         this.date = date;
-        this.etat = Etat.VALIDEE;
+        this.etat = Etat.EN_COURS;
         this.client = client;
     }
 

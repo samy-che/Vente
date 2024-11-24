@@ -20,40 +20,14 @@ public class Responsable extends Personne {
         idV = ++nbResponsable;
     }
 
-    public void AjouterClient() {
-
-    }
-
-    public void ModifierClient() {
-        // TODO implement here
-    }
-
-    public void SupprimerClient() {
-        // TODO implement here
-    }
-
-    public void GetClient() {
-        // TODO implement here
-    }
-
-    public void AjouterFacture() {
-        // TODO implement here
-    }
-
-    public void SupprimerFacture() {
-        // TODO implement here
-    }
-
-    public void ModifierFacture() {
-        // TODO implement here
-    }
-
-    public void GetFacture() {
-        // TODO implement here
-    }
-
     /*public void ChangerEtatCommande(void Etat nvEtat) {
         // TODO implement here
     }*/
+
+// a verifier si a ajouter ou pas
+//    public void ajouteCommande(Commande commande) {
+//
+//        listeCommande.add(commande);
+//    }
 
 }

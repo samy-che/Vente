@@ -14,12 +14,12 @@ public class Menu extends JFrame{
     JPanel gridConteneur = new JPanel();
 
     public Menu(){
-        this.setTitle("Menu "+this.nom);
+        this.setTitle("Menu MAGASIN DAUPHINE");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setPreferredSize(new Dimension(600,600));
-        this.setResizable(false);
+        this.setResizable(true);
 
-        gridConteneur.setLayout(new GridLayout(6,1,10,10));
+        gridConteneur.setLayout(new GridLayout(4,1,10,10));
         gridConteneur.setPreferredSize(new Dimension(600,200));
         nom.setHorizontalAlignment(SwingConstants.CENTER);
         getContentPane().add(gridConteneur);

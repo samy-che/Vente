@@ -7,12 +7,16 @@ import java.sql.SQLException;
 public class DatabaseConnection {
 	
 
-    public static void getConnection() {
+    public static Connection getConnection() {
     	String url = "jdbc:postgresql://localhost:5432/Projet_Java";
         String user = "postgres";
         String password = "mdpjava";
-        
-        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+
+        Connection connection = null;
+
+        try {
+            // Établir la connexion
+            connection = DriverManager.getConnection(url, user, password);
             if (connection != null) {
                 System.out.println("Connexion réussie à PostgreSQL !");
             } else {
@@ -21,6 +25,8 @@ public class DatabaseConnection {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return connection;
         
     }
 

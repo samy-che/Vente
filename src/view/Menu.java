@@ -4,7 +4,7 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 
-import
+
 
 public class Menu extends JFrame{
     JLabel nom = new JLabel("MAGASIN DAUPHINE");

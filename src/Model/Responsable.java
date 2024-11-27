@@ -1,10 +1,10 @@
 package Model;
+import java.sql.SQLException;
 import java.util.*;
 
 public class Responsable extends Personne {
 
-    public Responsable() {
-    }
+    
 
     public static int nbResponsable = 0;
     public int idP;
@@ -15,7 +15,7 @@ public class Responsable extends Personne {
     private Vector<Client> ListClient = new Vector<Client>();
     public Vector<Commande> listeCommande = new Vector<Commande>();
 
-    public Responsable(String nom, String prenom, String adresse, String tel,String email){
+    public Responsable(String nom, String prenom, String adresse, String tel,String email) throws SQLException{
         super(nom, prenom, adresse, tel, email);
         idP = ++nbResponsable;
     }

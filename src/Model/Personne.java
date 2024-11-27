@@ -5,8 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Personne {
-	Connection conn = DatabaseConnection.getConnection();
-    PreparedStatement stmt = null;
+
 	public static int nbP = 4;
 
     public int idP;

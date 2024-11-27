@@ -7,7 +7,7 @@ public class Responsable extends Personne {
     }
 
     public static int nbResponsable = 0;
-    public int idP;
+    public int idR;
 
     private String Login;
     private String mdp;
@@ -17,7 +17,7 @@ public class Responsable extends Personne {
 
     public Responsable(String nom, String prenom, String adresse, String tel,String email){
         super(nom, prenom, adresse, tel, email);
-        idP = ++nbResponsable;
+        idR = ++nbResponsable;
     }
 
     /*public void ChangerEtatCommande(void Etat nvEtat) {

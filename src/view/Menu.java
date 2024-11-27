@@ -1,5 +1,6 @@
 package view;
 
+import controller.MenuListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,15 +39,23 @@ public class Menu extends JFrame{
         responsable.setForeground(Color.black);
         responsable.setFont( new Font("Tahoma",Font.BOLD | Font.ITALIC, 18) );
 
-//        MenuListener m_listener = new MenuListener(monMagasin);
-//
-//        client.addActionListener(m_listener);
-//        responsable.addActionListener(m_listener);
+        MenuListener m_listener = new MenuListener(this);
+
+         client.addActionListener(m_listener);
+         responsable.addActionListener(m_listener);
 
         this.setContentPane(gridConteneur);
         this.pack();
         this.setVisible(true);
 
+    }
+
+    public void showMenu(){
+        this.setVisible(true);
+    }
+
+    public void hideMenu() {
+        this.setVisible(false); // Cache le menu sans le fermer
     }
 
 }

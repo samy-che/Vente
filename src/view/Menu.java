@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 
 
-
 public class Menu extends JFrame{
     JLabel nom = new JLabel("MAGASIN DAUPHINE");
     JButton client = new JButton("ACCES CLIENT");

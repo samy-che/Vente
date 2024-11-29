@@ -42,7 +42,7 @@ public class Client extends Personne {
             stmt = conn.prepareStatement(sql);
             
             // Set the values for the placeholders
-            stmt.setInt(1, p.idP);
+            stmt.setInt(1, idC);
             
 
             // Execute the SQL update

@@ -15,8 +15,12 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         Catalogue catalogue = new Catalogue();
         Menu menu = new Menu();
-        Personne p1 = new Personne("nom1", "pre1", "rue k", "09000000", "jsdn@jdk.com");
-        Client c1 = new Client(p1);
+        
+        Personne p3 = new Personne("nom3", "pre1", "rue k", "09000000", "jsdn@jdk.com");
+        System.out.println(p3.idP);
+        Client c3 = new Client(p3);
+        System.out.println(c3.idC);
+        
     }
     
 }

@@ -12,6 +12,7 @@ public class Commande {
     public Etat etat;
 
     public Client client;
+    public int idCommande;
 
     public Vector<LigneCommande> listeLigneCmd= new Vector<>();
 

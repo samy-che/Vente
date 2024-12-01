@@ -16,9 +16,9 @@ public class Client extends Personne {
     public int idC;
     
     
-    public Client(Personne p) throws SQLException {
-        super(p.nom, p.prenom, p.adresse, p.tel, p.email);
-        idC = p.idP;
+    public Client(String nom, String prenom, String adress, String tel, String email) throws SQLException {
+        super(nom,prenom,adress, tel, email);
+        idC = ++nbClient;
         Connection conn = null;
         PreparedStatement stmt = null;
 

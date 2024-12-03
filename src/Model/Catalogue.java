@@ -14,7 +14,7 @@ public class Catalogue {
             System.out.println("Prix: " + produit.prix + "€");
             System.out.println("Description: " + produit.description);
             System.out.println("Stock: " + produit.stockQuantite);
-            System.out.println("Disponible: " + (produit.EstDispo ? "Oui" : "Non"));
+            System.out.println("Disponible: " + (produit.estDispo ? "Oui" : "Non"));
             System.out.println("------------------------");
         }
     }

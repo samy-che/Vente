@@ -69,7 +69,7 @@ public class Vente extends JFrame {
 
     private void chargerProduits() {
         try {
-            String query = "SELECT nom, prix FROM produits";
+            String query = "SELECT nom, prix FROM produit";
             PreparedStatement stmt = connection.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
@@ -87,7 +87,7 @@ public class Vente extends JFrame {
         tableModelProduits.setRowCount(0);
 
         try {
-            String query = "SELECT nom, prix FROM produits WHERE LOWER(nom) LIKE ?";
+            String query = "SELECT nom, prix FROM produit WHERE LOWER(nom) LIKE ?";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, "%" + recherche + "%");
             ResultSet rs = stmt.executeQuery();

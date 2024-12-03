@@ -1,4 +1,3 @@
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -16,11 +15,9 @@ public class Main {
         Catalogue catalogue = new Catalogue();
         Menu menu = new Menu();
         
-        Personne p3 = new Personne("nom3", "pre1", "rue k", "09000000", "jsdn@jdk.com");
+        Client p3 = new Client("nom3", "pre1", "rue k", "09000000", "jsdn@jdk.com");
         System.out.println(p3.idP);
-        Client c3 = new Client(p3);
-        System.out.println(c3.idC);
-        
+
     }
     
 }

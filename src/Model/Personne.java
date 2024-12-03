@@ -14,13 +14,16 @@ public class Personne {
     public String adresse;
     public String tel;
     public String email;
+    public String mdp;
 
-    public Personne(String nom, String prenom, String adresse, String tel, String email) throws SQLException {
+    public Personne(String nom, String prenom, String adresse, String tel, String email,String mdp) throws SQLException {
         this.nom = nom;
         this.prenom = prenom;
         this.adresse = adresse;
         this.tel = tel;
         this.email = email;
+        this.mdp = mdp;
+
 
         if (nbP == -1) {
             syncNbPWithDatabase();
@@ -40,7 +43,7 @@ public class Personne {
             }
 
             // SQL query to insert into the Personne table
-            String sql = "INSERT INTO personne (id_Personne, Nom, Prenom, Adresse, Telephone, Email) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO personne (id_Personne, Nom, Prenom, Adresse, Telephone, Email, mdp) VALUES (?, ?, ?, ?, ?, ?,?)";
 
             // Create a PreparedStatement
             stmt = conn.prepareStatement(sql);
@@ -52,6 +55,7 @@ public class Personne {
             stmt.setString(4, this.adresse);
             stmt.setString(5, this.tel);
             stmt.setString(6, this.email);
+            stmt.setString(7, this.mdp);
 
             // Execute the SQL update
             stmt.executeUpdate();

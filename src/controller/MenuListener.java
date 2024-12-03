@@ -1,5 +1,6 @@
 package controller;
 
+import Model.DatabaseConnection;
 import view.*;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ public class MenuListener implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (((JButton)e.getSource()).getText().equals("ACCES CLIENT")) {
-            ClientLogin clientLogin = new ClientLogin(menu);
+            ClientLogin clientLogin = new ClientLogin(menu, DatabaseConnection.getConnection());
             // A IMPLEMENT ATTENTION
             // affichage DE LA FENETRE DE CONNEXION
             // connection a la BDD

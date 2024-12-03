@@ -20,16 +20,16 @@ public class Main {
         Catalogue catalogue = new Catalogue();
         Menu menu = new Menu();
         
-        Client c1 = new Client("nom3", "pre1", "rue k", "09000000", "jsdn@jdk.com");
-        Responsable r1 = new Responsable("nom3", "pre1", "rue k", "09000000", "jsdn@jdk.com","jjsjsik","jkndnlnln");
-        System.out.println(c1.idC);
-        System.out.println(r1.idR);
-        Produit p1 = new Produit("nom3", 19.9f, "rklk,zlk",7);
-        System.out.println(p1.idP);
-        Commande com1 = new Commande(LocalDate.now(),c1);
-        System.out.println(com1.idCommande);
-        Facture f1 = new Facture(com1);
-        System.out.println(f1.id);
+        Client c1 = new Client("toto", "a", "rue k", "09000000", "azer@gmail.com","admin");
+//        Responsable r1 = new Responsable("nom3", "pre1", "rue k", "09000000", "jsdn@jdk.com","jjsjsik","jkndnlnln");
+//        System.out.println(c1.idC);
+//        System.out.println(r1.idR);
+//        Produit p1 = new Produit("nom3", 19.9f, "rklk,zlk",7);
+//        System.out.println(p1.idP);
+//        Commande com1 = new Commande(LocalDate.now(),c1);
+//        System.out.println(com1.idCommande);
+//        Facture f1 = new Facture(com1);
+//        System.out.println(f1.id);
     }
     
 }

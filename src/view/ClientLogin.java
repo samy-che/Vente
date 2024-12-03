@@ -12,8 +12,11 @@ public class ClientLogin extends JFrame {
     private Menu menu;
     private JTextField emailField;
     private JTextField passwordField;
+    private Connection connection;
 
-    public ClientLogin(Menu menu) {
+    public ClientLogin(Menu menu,Connection connection) {
+        this.menu = menu;
+        this.connection = connection;
         this.setTitle("Connexion Client");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setPreferredSize(new Dimension(400, 300));
@@ -23,10 +26,10 @@ public class ClientLogin extends JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JLabel emailLabel = new JLabel("Email:");
-        JTextField emailField = new JTextField();
+        emailField = new JTextField();
 
         JLabel passwordLabel = new JLabel("Mot de passe:");
-        JPasswordField passwordField = new JPasswordField();
+        passwordField = new JPasswordField();
 
         JButton loginButton = new JButton("Se connecter");
         JButton backButton = new JButton("Retour");
@@ -61,20 +64,25 @@ public class ClientLogin extends JFrame {
         String email = emailField.getText();;
         String password = new String(passwordField.getText());
 
-//        try {
-//            if (dbManager.authenticateClient(email, password)) {
-//                JOptionPane.showMessageDialog(this, "Connexion réussie!");
-//                // Ici, vous pouvez ouvrir l'écran principal du client
-//                dispose();
-//            } else {
-//                JOptionPane.showMessageDialog(this, "Email ou mot de passe incorrect",
-//                        "Erreur de connexion",
-//                        JOptionPane.ERROR_MESSAGE);
-//            }
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(this, "Erreur de connexion : " + e.getMessage(),
-//                    "Erreur", JOptionPane.ERROR_MESSAGE);
-//        }
+        try {
+            String query = "SELECT * FROM personne WHERE email = ? AND mdp = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, email);
+            stmt.setString(2, password);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(this, "Connexion réussie!");
+                dispose(); // Ferme la fenêtre de connexion
+                new Vente(connection); // Ouvre la fenêtre du catalogue
+            } else {
+                JOptionPane.showMessageDialog(this, "Email ou mot de passe incorrect",
+                        "Erreur de connexion", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erreur de connexion : " + e.getMessage(),
+                    "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void openRegistrationForm() {

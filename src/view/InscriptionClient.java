@@ -1,5 +1,7 @@
 package view;
 
+import Model.DatabaseConnection;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -43,7 +45,7 @@ public class InscriptionClient extends JFrame {
 
         registerButton.addActionListener(e -> registerClient());
         backButton.addActionListener(e -> {
-            new ClientLogin(menu);
+            new ClientLogin(menu, DatabaseConnection.getConnection());
             dispose();
         });
 

@@ -12,6 +12,7 @@ public class Client extends Personne {
     public static int nbClient = -1; // Initialisé à -1 pour synchronisation avec la base
     public int idC;
 
+
     public Client(String nom, String prenom, String adress, String tel, String email) throws SQLException {
         super(nom, prenom, adress, tel, email);
 
@@ -19,6 +20,7 @@ public class Client extends Personne {
             syncNbClientWithDatabase();
         }
         idC = ++nbClient;
+
 
         Connection conn = null;
         PreparedStatement stmt = null;

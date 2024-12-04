@@ -8,17 +8,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Vector;
 
+import controller.VenteListener;
+
 public class Vente extends JFrame {
 
-    private JTable tableProduits;
-    private DefaultTableModel tableModelProduits;
+    public JTable tableProduits;
+    public DefaultTableModel tableModelProduits;
     private JTable tablePanier;
     private DefaultTableModel tableModelPanier;
     private JTextField rechercheField;
-    private Connection connection;
+    public Connection connection;
+    private VenteListener controller;
+    public JComboBox<Integer> quantityComboBox;  // Menu déroulant pour sélectionner la quantité
 
     public Vente(Connection connection) {
         this.connection = connection;
+        this.controller = new VenteListener(this);  // Création du contrôleur
         this.setTitle("Catalogue des Produits");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setPreferredSize(new Dimension(800, 600));
@@ -33,7 +38,7 @@ public class Vente extends JFrame {
         nordPanel.add(rechercheField);
         nordPanel.add(rechercheButton);
 
-        tableModelProduits = new DefaultTableModel(new String[]{"Nom", "Prix"}, 0);
+        tableModelProduits = new DefaultTableModel(new String[]{"Nom", "Prix", "Disponible"}, 0);
         tableProduits = new JTable(tableModelProduits);
         JScrollPane produitsScrollPane = new JScrollPane(tableProduits);
 
@@ -41,8 +46,13 @@ public class Vente extends JFrame {
         tablePanier = new JTable(tableModelPanier);
         JScrollPane panierScrollPane = new JScrollPane(tablePanier);
 
+        quantityComboBox = new JComboBox<>();  // ComboBox pour la quantité
+        for (int i = 1; i <= 10; i++) {
+            quantityComboBox.addItem(i);
+        }
+
         JButton ajouterPanierButton = new JButton("Ajouter au panier");
-        ajouterPanierButton.addActionListener(e -> ajouterAuPanier());
+        ajouterPanierButton.addActionListener(e -> controller.ajouterAuPanier());
 
         JButton supprimerPanierButton = new JButton("Supprimer du panier");
         supprimerPanierButton.addActionListener(e -> supprimerDuPanier());
@@ -51,6 +61,8 @@ public class Vente extends JFrame {
         validerPanierButton.addActionListener(e -> validerPanier());
 
         JPanel boutonsPanel = new JPanel();
+        boutonsPanel.add(new JLabel("Quantité :"));
+        boutonsPanel.add(quantityComboBox);
         boutonsPanel.add(ajouterPanierButton);
         boutonsPanel.add(supprimerPanierButton);
         boutonsPanel.add(validerPanierButton);
@@ -68,46 +80,42 @@ public class Vente extends JFrame {
     }
 
     private void chargerProduits() {
-        try {
-            String query = "SELECT nom, prix FROM produit";
-            PreparedStatement stmt = connection.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery();
+        controller.chargerProduits();
+    }
 
-            while (rs.next()) {
-                tableModelProduits.addRow(new Object[]{rs.getString("nom"), rs.getDouble("prix")});
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erreur lors du chargement des produits : " + e.getMessage(),
-                    "Erreur", JOptionPane.ERROR_MESSAGE);
+    public void afficherProduits(Vector<Vector<Object>> produits) {
+        tableModelProduits.setRowCount(0);  // Réinitialise le tableau des produits
+        for (Vector<Object> produit : produits) {
+            tableModelProduits.addRow(produit);
         }
     }
 
     private void rechercherProduits() {
         String recherche = rechercheField.getText().toLowerCase();
-        tableModelProduits.setRowCount(0);
+        controller.rechercherProduits(recherche);
+    }
 
-        try {
-            String query = "SELECT nom, prix FROM produit WHERE LOWER(nom) LIKE ?";
-            PreparedStatement stmt = connection.prepareStatement(query);
-            stmt.setString(1, "%" + recherche + "%");
-            ResultSet rs = stmt.executeQuery();
+    public void ajouterAuPanier(String nom, double prix, int quantity) {
+        double total = prix * quantity;
+        int rowIndex = getProduitInPanier(nom);
 
-            while (rs.next()) {
-                tableModelProduits.addRow(new Object[]{rs.getString("nom"), rs.getDouble("prix")});
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erreur lors de la recherche : " + e.getMessage(),
-                    "Erreur", JOptionPane.ERROR_MESSAGE);
+        if (rowIndex != -1) {
+            // Si le produit existe déjà, on augmente la quantité
+            int currentQuantity = (int) tableModelPanier.getValueAt(rowIndex, 1);
+            tableModelPanier.setValueAt(currentQuantity + quantity, rowIndex, 1);
+            tableModelPanier.setValueAt((currentQuantity + quantity) * prix, rowIndex, 3);
+        } else {
+            tableModelPanier.addRow(new Object[]{nom, quantity, prix, total});
         }
     }
 
-    private void ajouterAuPanier() {
-        int selectedRow = tableProduits.getSelectedRow();
-        if (selectedRow != -1) {
-            String nom = (String) tableModelProduits.getValueAt(selectedRow, 0);
-            double prix = (double) tableModelProduits.getValueAt(selectedRow, 1);
-            tableModelPanier.addRow(new Object[]{nom, 1, prix, prix});
+    private int getProduitInPanier(String nom) {
+        for (int i = 0; i < tableModelPanier.getRowCount(); i++) {
+            if (tableModelPanier.getValueAt(i, 0).equals(nom)) {
+                return i;  // Le produit est déjà dans le panier
+            }
         }
+        return -1;  // Le produit n'est pas dans le panier
     }
 
     private void supprimerDuPanier() {
@@ -118,7 +126,7 @@ public class Vente extends JFrame {
     }
 
     private void validerPanier() {
-        JOptionPane.showMessageDialog(this, "Achat validé !");
-        tableModelPanier.setRowCount(0);
+        controller.validerPanier();
+        tableModelPanier.setRowCount(0);  // Réinitialise le panier après validation
     }
 }

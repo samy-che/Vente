@@ -19,7 +19,7 @@ public class VenteListener{
     // Méthode pour charger les produits disponibles
     public void chargerProduits() {
         try {
-            String query = "SELECT nom, prix, estDispo FROM produit WHERE estDispo = true";
+            String query = "SELECT nom, prix, quantite FROM produit WHERE estDispo = true";
             PreparedStatement stmt = connection.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
@@ -28,7 +28,7 @@ public class VenteListener{
                 Vector<Object> produit = new Vector<>();
                 produit.add(rs.getString("nom"));
                 produit.add(rs.getDouble("prix"));
-                produit.add(rs.getBoolean("estDispo"));
+                produit.add(rs.getInt("quantite"));
                 produits.add(produit);
             }
 
@@ -42,7 +42,7 @@ public class VenteListener{
     // Méthode pour rechercher des produits
     public void rechercherProduits(String recherche) {
         try {
-            String query = "SELECT nom, prix, estDispo FROM produit WHERE LOWER(nom) LIKE ? AND estDispo = true";
+            String query = "SELECT nom, prix, quantite FROM produit WHERE LOWER(nom) LIKE ? AND estDispo = true";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, "%" + recherche + "%");
             ResultSet rs = stmt.executeQuery();
@@ -52,7 +52,7 @@ public class VenteListener{
                 Vector<Object> produit = new Vector<>();
                 produit.add(rs.getString("nom"));
                 produit.add(rs.getDouble("prix"));
-                produit.add(rs.getBoolean("estDispo"));
+                produit.add(rs.getInt("quantite"));
                 produits.add(produit);
             }
 

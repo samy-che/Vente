@@ -4,8 +4,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.Vector;
 
 import controller.VenteListener;
@@ -38,11 +36,22 @@ public class Vente extends JFrame {
         nordPanel.add(rechercheField);
         nordPanel.add(rechercheButton);
 
-        tableModelProduits = new DefaultTableModel(new String[]{"Nom", "Prix", "Disponible"}, 0);
+        tableModelProduits = new DefaultTableModel(new String[]{"Nom", "Prix", "Quantité"}, 0){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Rendre les cellules non modifiables
+            }
+        };
         tableProduits = new JTable(tableModelProduits);
         JScrollPane produitsScrollPane = new JScrollPane(tableProduits);
 
-        tableModelPanier = new DefaultTableModel(new String[]{"Nom", "Quantité", "Prix Unitaire", "Prix Total"}, 0);
+        tableModelPanier = new DefaultTableModel(new String[]{"Nom", "Quantité", "Prix Unitaire", "Prix Total"}, 0){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Rendre les cellules non modifiables
+            }
+        };
+
         tablePanier = new JTable(tableModelPanier);
         JScrollPane panierScrollPane = new JScrollPane(tablePanier);
 

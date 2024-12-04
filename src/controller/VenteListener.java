@@ -83,7 +83,7 @@ public class VenteListener{
     // Méthode pour mettre à jour le stock de produit dans la base de données
     private void mettreAJourStock(String nom, int quantity) {
         try {
-            String query = "UPDATE produit SET stockQuantite = stockQuantite - ? WHERE nom = ?";
+            String query = "UPDATE produit SET Quantite = Quantite - ? WHERE nom = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setInt(1, quantity);
             stmt.setString(2, nom);

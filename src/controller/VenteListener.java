@@ -19,7 +19,7 @@ public class VenteListener {
     // Méthode pour charger les produits disponibles
     public void chargerProduits() {
         try {
-            String query = "SELECT nom, prix, estDispo, photo FROM produit WHERE estDispo = true";
+            String query = "SELECT nom, prix, quantite, photo FROM produit WHERE estDispo = true";
             PreparedStatement stmt = connection.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
@@ -28,7 +28,7 @@ public class VenteListener {
                 Vector<Object> produit = new Vector<>();
                 produit.add(rs.getString("nom"));              // Nom du produit
                 produit.add(rs.getDouble("prix"));             // Prix du produit
-                produit.add(rs.getBoolean("estDispo") ? "Oui" : "Non");  // Disponibilité
+                produit.add(rs.getInt("quantite"));  // Disponibilité
                 produit.add(rs.getString("photo"));        // Image URL du produit
                 produits.add(produit);
             }

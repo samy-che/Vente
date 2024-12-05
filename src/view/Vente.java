@@ -42,7 +42,12 @@ public class Vente extends JFrame {
 	    nordPanel.add(rechercheField);
 	    nordPanel.add(rechercheButton);
 
-	    tableModelProduits = new DefaultTableModel(new String[]{"Nom", "Prix", "Disponible", "Image"}, 0);
+        tableModelProduits = new DefaultTableModel(new String[]{"Nom", "Prix", "Quantité","Image"}, 0){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Rendre les cellules non modifiables
+            }
+        };
 	    tableProduits = new JTable(tableModelProduits);
 	    tableProduits.setRowHeight(100);
 	    tableProduits.getColumnModel().getColumn(3).setPreferredWidth(100); 
@@ -50,7 +55,12 @@ public class Vente extends JFrame {
 
 	    JScrollPane produitsScrollPane = new JScrollPane(tableProduits);
 
-	    tableModelPanier = new DefaultTableModel(new String[]{"Nom", "Quantité", "Prix Unitaire", "Prix Total"}, 0);
+	    tableModelPanier = new DefaultTableModel(new String[]{"Nom", "Quantité", "Prix Unitaire", "Prix Total"}, 0){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Rendre les cellules non modifiables
+            }
+        };
 	    tablePanier = new JTable(tableModelPanier);
 	    JScrollPane panierScrollPane = new JScrollPane(tablePanier);
 

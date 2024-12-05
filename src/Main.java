@@ -17,8 +17,8 @@ public class Main {
 
 
     public static void main(String[] args) throws SQLException {
-        Produit produit1 = new Produit("Apple iPhone 111 ", 500.0f, "Apple iPhone 14 32GB - Black", 10, "https://boulanger.scene7.com/is/image/Boulanger/0194253408253_h_f_l_0?wid=720&hei=720&resMode=sharp2&op_usm=1.75,0.3,2,0");
-        Produit produit2 = new Produit("Galaxy s2444", 250.0f, "AGM H5 Pro - Robust Smartphone 6.52\" Screen", 8, "https://boulanger.scene7.com/is/image/Boulanger/8806095308234_h_f_l_0?wid=720&hei=720&resMode=sharp2&op_usm=1.75,0.3,2,0");
+        //Produit produit1 = new Produit("Apple iPhone 111 ", 500.0f, "Apple iPhone 14 32GB - Black", 10, "https://boulanger.scene7.com/is/image/Boulanger/0194253408253_h_f_l_0?wid=720&hei=720&resMode=sharp2&op_usm=1.75,0.3,2,0");
+        //Produit produit2 = new Produit("Galaxy s2444", 250.0f, "AGM H5 Pro - Robust Smartphone 6.52\" Screen", 8, "https://boulanger.scene7.com/is/image/Boulanger/8806095308234_h_f_l_0?wid=720&hei=720&resMode=sharp2&op_usm=1.75,0.3,2,0");
 
         Catalogue catalogue = new Catalogue();
         Menu menu = new Menu();

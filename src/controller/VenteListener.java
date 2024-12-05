@@ -1,6 +1,8 @@
 package controller;
 
 import view.Vente;
+
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +22,9 @@ public class VenteListener {
     public void chargerProduits() {
         try {
 
+
             String query = "SELECT nom, prix, quantite, photo FROM produit WHERE estDispo = true";
+
 
             PreparedStatement stmt = connection.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
@@ -28,10 +32,12 @@ public class VenteListener {
             Vector<Vector<Object>> produits = new Vector<>();
             while (rs.next()) {
                 Vector<Object> produit = new Vector<>();
+
                 produit.add(rs.getString("nom"));              // Nom du produit
                 produit.add(rs.getDouble("prix"));             // Prix du produit
                 produit.add(rs.getInt("quantite"));  // Disponibilité
                 produit.add(rs.getString("photo"));        // Image URL du produit
+
                 produits.add(produit);
             }
 
@@ -45,7 +51,9 @@ public class VenteListener {
     // Méthode pour rechercher des produits
     public void rechercherProduits(String recherche) {
         try {
-            String query = "SELECT nom, prix, estDispo, photo FROM produit WHERE LOWER(nom) LIKE ? AND estDispo = true";
+
+            String query = "SELECT nom, prix, quantite FROM produit WHERE LOWER(nom) LIKE ? AND estDispo = true";
+
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, "%" + recherche + "%");
             ResultSet rs = stmt.executeQuery();
@@ -53,10 +61,12 @@ public class VenteListener {
             Vector<Vector<Object>> produits = new Vector<>();
             while (rs.next()) {
                 Vector<Object> produit = new Vector<>();
+
                 produit.add(rs.getString("nom"));              // Nom du produit
                 produit.add(rs.getDouble("prix"));             // Prix du produit
                 produit.add(rs.getInt("quantite"));// Disponibilité
                 produit.add(rs.getString("photo"));        // Image URL du produit
+
                 produits.add(produit);
             }
 
@@ -73,16 +83,22 @@ public class VenteListener {
         if (selectedRow != -1) {
             String nom = (String) vue.tableModelProduits.getValueAt(selectedRow, 0);
             double prix = (double) vue.tableModelProduits.getValueAt(selectedRow, 1);
+            int availableStock = (int) vue.tableModelProduits.getValueAt(selectedRow, 2);
             int quantity = (int) vue.quantityComboBox.getSelectedItem();
 
-            if (quantity > 0) {
+            if (quantity > 0 && quantity <= availableStock) {
                 vue.ajouterAuPanier(nom, prix, quantity);
 
                 // Mise à jour du stock dans la base de données
                 mettreAJourStock(nom, quantity);
+            }else if (quantity > availableStock) {
+                JOptionPane.showMessageDialog(vue, "Stock insuffisant pour ce produit.", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
+        } else {
+            JOptionPane.showMessageDialog(vue, "Veuillez sélectionner un produit.", "Erreur", JOptionPane.WARNING_MESSAGE);
         }
-    }
+        }
+
 
     // Méthode pour mettre à jour le stock de produit dans la base de données
     private void mettreAJourStock(String nom, int quantity) {

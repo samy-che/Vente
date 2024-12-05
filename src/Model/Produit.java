@@ -15,13 +15,15 @@ public class Produit {
     public String description;
     public int stockQuantite;
     public boolean estDispo = false;
+    public String imageUrl; // Nouveau champ pour stocker l'URL de l'image.
 
-    public Produit(String nom, Float prix, String description, int stockQuantite) throws SQLException {
+    public Produit(String nom, Float prix, String description, int stockQuantite, String imageUrl) throws SQLException {
         this.nom = nom;
         this.prix = prix;
         this.description = description;
         this.stockQuantite = stockQuantite;
         this.estDispo = stockQuantite > 0; // Disponible si la quantité en stock est > 0.
+        this.imageUrl = imageUrl; // Initialisation de l'URL de l'image.
 
         if (nbProduit == -1) {
             syncNbProduitWithDatabase();
@@ -41,7 +43,8 @@ public class Produit {
             }
 
             // SQL pour insérer un produit
-            String sql = "INSERT INTO produit (Id, Nom, Prix, Description, Quantite, EstDispo) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO produit (Id, Nom, Prix, Description, Quantite, EstDispo, photo) " +
+                         "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, this.idP);
@@ -50,6 +53,7 @@ public class Produit {
             stmt.setString(4, this.description);
             stmt.setInt(5, this.stockQuantite);
             stmt.setBoolean(6, this.estDispo);
+            stmt.setString(7, imageUrl); // Insertion de l'URL de l'image.
 
             stmt.executeUpdate();
 
@@ -108,11 +112,9 @@ public class Produit {
         }
     }
 
-    public Vector<LigneCommande> listeLigneC = new Vector<LigneCommande>();
+    public Vector<LigneCommande> listeLigneC = new Vector<>();
 
-    // à checker
-    public void ajouteLigneCommande(LigneCommande ligneCommande){
+    public void ajouteLigneCommande(LigneCommande ligneCommande) {
         listeLigneC.add(ligneCommande);
     }
-
 }

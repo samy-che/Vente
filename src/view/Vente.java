@@ -1,10 +1,16 @@
 package view;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.sql.Connection;
 import java.util.Vector;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import controller.VenteListener;
 
@@ -36,13 +42,15 @@ public class Vente extends JFrame {
         nordPanel.add(rechercheField);
         nordPanel.add(rechercheButton);
 
-        tableModelProduits = new DefaultTableModel(new String[]{"Nom", "Prix", "Quantité"}, 0){
+        tableModelProduits = new DefaultTableModel(new String[]{"Nom", "Prix", "Quantité","image"}, 0){
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // Rendre les cellules non modifiables
             }
         };
         tableProduits = new JTable(tableModelProduits);
+        tableProduits.setRowHeight(100);
+        tableProduits.getColumnModel().getColumn(3).setPreferredWidth(100);
         JScrollPane produitsScrollPane = new JScrollPane(tableProduits);
 
         tableModelPanier = new DefaultTableModel(new String[]{"Nom", "Quantité", "Prix Unitaire", "Prix Total"}, 0){
@@ -94,9 +102,51 @@ public class Vente extends JFrame {
 
     public void afficherProduits(Vector<Vector<Object>> produits) {
         tableModelProduits.setRowCount(0);  // Réinitialise le tableau des produits
-        for (Vector<Object> produit : produits) {
-            tableModelProduits.addRow(produit);
+        for (int rowIndex = 0; rowIndex < produits.size(); rowIndex++) {
+            Vector<Object> produit = produits.get(rowIndex);
+            if (produit.size() >= 4) {  // Ensure there are at least 4 columns (Name, Price, Availability, Image URL)
+                String imageUrl = (String) produit.get(3);  // Get the image URL from the 4th column
+                // Set a placeholder first
+                produit.set(3, new ImageIcon("path/to/placeholder.png"));
+                tableModelProduits.addRow(produit);  // Add the row with placeholder
+                // Use SwingWorker to load the image asynchronously
+                int finalRowIndex = rowIndex;
+                SwingWorker<ImageIcon, Void> worker = new SwingWorker<>() {
+                    @Override
+                    protected ImageIcon doInBackground() throws Exception {
+                        return getImageFromUrl(imageUrl); // Fetch and scale the image
+                    }
+                    private ImageIcon getImageFromUrl(String imageUrl) {
+                        try {
+                            URL url = new URL(imageUrl);
+                            BufferedImage img = ImageIO.read(url);
+                            // Scale image to fit the cell size
+                            return new ImageIcon(img.getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+                        } catch (Exception e) {
+                            System.err.println("Error loading image from: " + imageUrl);
+                            e.printStackTrace();
+                            return new ImageIcon("path/to/placeholder.png"); // Fallback placeholder
+                        }
+                    }
+                    @Override
+                    protected void done() {
+                        try {
+                            ImageIcon productImage = get(); // Get the loaded image
+                            tableModelProduits.setValueAt(productImage, finalRowIndex, 3); // Update the cell
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                worker.execute(); // Start the image loading task
+            } else {
+                System.err.println("Invalid product data: " + produit);
+            }
         }
+        // Set the custom renderer for the image column (index 3)
+        tableProduits.getColumnModel().getColumn(3).setCellRenderer(new ImageRenderer());
+        tableProduits.getColumnModel().getColumn(3).setPreferredWidth(100); // Adjust column width
+        tableProduits.setRowHeight(100); // Adjust row height to fit images
     }
 
     private void rechercherProduits() {
@@ -139,3 +189,14 @@ public class Vente extends JFrame {
         tableModelPanier.setRowCount(0);  // Réinitialise le panier après validation
     }
 }
+class ImageRenderer extends DefaultTableCellRenderer {
+
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        if (value instanceof ImageIcon) {
+            JLabel label = new JLabel((ImageIcon) value);
+            label.setHorizontalAlignment(JLabel.CENTER); // Center the image
+            return label;
+        }
+        return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+    }}

@@ -53,7 +53,7 @@ public class Produit {
             stmt.setString(4, this.description);
             stmt.setInt(5, this.stockQuantite);
             stmt.setBoolean(6, this.estDispo);
-            stmt.setString(7, imageUrl); // Insertion de l'URL de l'image.
+            stmt.setString(7, this.imageUrl); // Insertion de l'URL de l'image.
 
             stmt.executeUpdate();
 

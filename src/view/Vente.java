@@ -42,7 +42,8 @@ public class Vente extends JFrame {
 	    nordPanel.add(rechercheField);
 	    nordPanel.add(rechercheButton);
 
-	    tableModelProduits = new DefaultTableModel(new String[]{"Nom", "Prix", "Quantité"}, 0){
+        tableModelProduits = new DefaultTableModel(new String[]{"Nom", "Prix", "Quantité","Image"}, 0){
+
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // Rendre les cellules non modifiables
